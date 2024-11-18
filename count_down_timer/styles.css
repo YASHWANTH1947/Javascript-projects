@@ -1,0 +1,24 @@
+*{
+    box-sizing: border-box;
+}
+body{
+    background-image: url('bg.jpg');
+    background-size: cover;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+}
+.container{
+    display: flex;
+    font-weight: bold;
+    font-family: monospace;
+    padding: 5px;
+    justify-content: space-evenly;
+}
+.container div{
+    margin: 0 20px;
+    text-align: center;
+}
