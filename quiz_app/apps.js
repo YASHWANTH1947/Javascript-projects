@@ -1,96 +1,83 @@
-const quizData = [
-    {
-        question: "What is the most used programming language in 2019?",
-        a: "Java",
-        b: "C",
-        c: "Python",
-        d: "JavaScript",
-        correct: "d",
-    },
-    {
-        question: "Who is the President of US?",
-        a: "Florin Pop",
-        b: "Donald Trump",
-        c: "Ivan Saldano",
-        d: "Mihai Andrei",
-        correct: "b",
-    },
-    {
-        question: "What does HTML stand for?",
-        a: "Hypertext Markup Language",
-        b: "Cascading Style Sheet",
-        c: "Jason Object Notation",
-        d: "Helicopters Terminals Motorboats Lamborginis",
-        correct: "a",
-    },
-    {
-        question: "What year was JavaScript launched?",
-        a: "1996",
-        b: "1995",
-        c: "1994",
-        d: "none of the above",
-        correct: "b",
-    },
-];
+const quizData = [ { question: "What is the capital of France?",
+     a: "Berlin",
+      b: "Madrid",
+       c: "Paris",
+        d: "Lisbon", 
+        correct: "c", }, 
+        { question: "Who is the CEO of Tesla?", 
+            a: "Jeff Bezos",
+             b: "Elon Musk",
+             c: "Bill Gates", 
+             d: "Tony Stark",
+              correct: "b", }];
+
+
 let currentQ=0;
-const questionEl = document.getElementById("question");
-const a_text = document.getElementById("a_text");
-const b_text = document.getElementById("b_text");
-const c_text = document.getElementById("c_text");
-const d_text = document.getElementById("d_text");
-const button=document.querySelector('.submitB')
-const selects=document.querySelectorAll('.answer')
+let score=0;
+
+let questionT=document.querySelector('#question');
+let answersT=document.querySelectorAll('.answer');
+let qcontainer=document.querySelector('.container');
+let aT=document.querySelector('#a_text')
+let bT=document.querySelector('#b_text')
+let cT=document.querySelector('#c_text')
+let dT=document.querySelector('#d_text');
+let sub=document.querySelector('.submitB');
+
+
+loadQuiz();
 function loadQuiz(){
     deselect();
-let newQ=quizData[currentQ];
-questionEl.innerText=newQ.question;
-a_text.innerText=newQ.a;
-b_text.innerText=newQ.b;
-c_text.innerText=newQ.c;
-d_text.innerText=newQ.d;
-
-
+    questionT.innerText=quizData[currentQ].question;
+    aT.innerText=quizData[currentQ].a;
+    bT.innerText=quizData[currentQ].b;
+    cT.innerText=quizData[currentQ].c;
+    dT.innerText=quizData[currentQ].d;
+    
 }
-function deselect(){
-selects.forEach((e)=>{
-    e.checked=false;
-})
-}
-function checkAnswer(){
-    selects.forEach((e)=>{
+function getAnswer(){
+    let rvalue;
+    answersT.forEach((e)=>{
         if(e.checked){
-            if(e.id===quizData[currentQ].correct){
-               alert('CORRECT')
-currentQ++;
-               return;
-            }
-            else{
-                currentQ++;
-               alert('WRONG')
-               return;
-            }
+            console.log(e.id);
+            rvalue=e.id;
         }
-        
+    })
+    return rvalue;
+}
 
+function deselect(){
+    answersT.forEach((e)=>{
+        e.checked=false;
     })
 }
-loadQuiz();
-function submitaA(){
-   
- 
- if(currentQ<=quizData.length-1){
-    checkAnswer();
-    loadQuiz();
-   
-    console.log(currentQ);
-console.log('continue');
+
+function AnswerSub(){
+    console.log("answersub");
+    let ans=getAnswer();
+    console.log(ans);
+    if(ans){
+        console.log("ans if");
+        if(ans==quizData[currentQ].correct){
+           score++;
+            console.log('correct');
+        }
+        else{
+            console.log('wrong');
+        }
+    currentQ++;
+    if(currentQ<quizData.length){
+        loadQuiz();
+    }
+    else{
+qcontainer.innerHTML=`<div class="final">Your total score is  ${score} </div>`;
+sub.innerText="Reload";
+sub.addEventListener('click',()=>{
+    location.reload();
+})
+
+    }
+    
 }
- else{
-    alert('END OF QUIZ')
-    console.log('end');
-    return;}
-
-
-
 }
-button.addEventListener('click',submitaA)
+sub.addEventListener('click',AnswerSub)
